@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title>仿奇迹暖暖右侧多级换装菜单</title>
+    <link rel="stylesheet" href="css/minireset.css">
+    <script src="js/flexible.js"></script>
+
+</head>
+<style type="text/css">
+html,body{
+    height:100vh;
+    color: #5c3d3b;
+}
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+.sidebar{
+    position: fixed;
+    z-index:9999;
+    right:0;
+    top:0;
+    width:3rem;
+    height:100vh;
+    overflow: hidden;
+    background: rgba(255,255,255,0.9);
+    border-left:1px solid #d5d5d6;
+    -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.4);
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -ms-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+}
+.sidebar.transition{
+    -webkit-animation: trans 0.3s;
+    -o-animation: trans 0.3s;
+    animation: trans 0.3s;
+
+}
+@keyframes trans {
+    from{
+        transform: translateX(3rem);
+    }
+    to{
+        transform: translateX(0);
+    }
+}
+
+.sidebar.off,.sidebar-action.off{
+    transform: translateX(3rem);
+}
+.sidebar-scroll{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    border-left:1px solid #fff;
+    padding-top:0.426667rem;
+    padding-bottom:0.853333rem;
+}
+.m-button-tab li{
+    margin-top:0.466667rem;
+    margin-left:0.133333rem;
+    margin-right:0.2rem;
+}
+.m-button-tab li a{
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: #5c3d3b;
+    font-size:12px;
+    text-align-last: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height:1.066667rem;
+    line-height: 1.066667rem;
+    padding: 0 0.133333rem;
+    text-align: justify;
+    border:1px solid #e9e3d7;
+    -webkit-border-radius: 0.48rem;
+    -moz-border-radius: 0.48rem;
+    border-radius: 0.48rem;
+    background-color: #fff;
+    -webkit-box-shadow: 0 3px 1px rgba(211, 215, 217, 0.98);
+    -moz-box-shadow: 0 3px 1px rgba(211, 215, 217, 0.98);
+    box-shadow: 0 3px 1px rgba(211, 215, 217, 0.98);
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.m-button-tab li a.lastChild::after{
+    display: block;
+    content: '';
+    position: absolute;
+    right:0.133333rem;
+    top:50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width:0.33333rem;
+    height:0.33333rem;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRklEQVRYR8XXMW7CQBAF0BkjISUgkaO4xA4S4ga0OEXMDTgCuUFugCnia0CROCl9FIqEIoU3GkeWohTseuevcL/6z7Oz6zHTlR++cj45AbJZuh1+np+Luj6hwVbAw31SEPOjMVQPv84LNMIKyNJpzlG0kzcPgbACJDgkwgkgiFWSLHlABRNPpBJkaF1WVa3tCWfAbyXSmCJzFAQRnUxDCy2iFyAEojcAjfACIBHeABRCBUAg1AAtAgLQIGAAXwQUIIju49XekMbsX97e80u3JRTQN1xgMIBPOAzgGw4BaMLVAG24CoAI9wagwnsD8ji++x7f7Jh42R5zoqfytdpqpiLnY9iGj24PzBS34U2zLquPQhPuXIFQ4U6AkOFOgGyWyBA6R5b977ZZe6CbhKkxG8Se/+8ZK0AWyDagf8k6iBNA2+mX1v8AFETtIQEhGnsAAAAASUVORK5CYII=);
+    background-repeat:no-repeat;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+}
+.m-button-tab li a.lastChild.on::after{
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABDklEQVRYR+2VMQ6CMBSG2yY6wKBH0BPIiNWBYxhc8GQwEY+hiQoj3oAjsMCgSWtKgiEQSlub4FBWmv/78jfvFYKJPzgxHxgB04Bp4P8aOLjuiu2Gc5rmOneEj7FDCCm6ub0G/P22gAAuKCGn+JFGOiR87AYQoZBSmsf3ZN3O7AkcdzgDEGzYIR0SDbzOA/Qa3xKPKxA4zvJtWxcdEm04oOA5KysvyrKCK8B+6pAQgTPW4BT8IiEK5wqoNiEDHxWQlZCFCwmISqjAhQXGJFThUgJDEnUIQmE9WgOjxltm0m9Bdzq+4Qpw6QYaWE9CEa4s0FzHy7bqt2JeVkF3w4m+IdJXIBoses4ImAZMA6aBD97r0yG57ZXuAAAAAElFTkSuQmCC
+    );
+    -webkit-background-size: 100%;
+    background-size: 100%;
+}
+.m-button-tab li a.lastChild ~.child-mod-container{
+    display: none;
+}
+.m-button-tab li a.lastChild.on ~.child-mod-container{
+    display: block;
+}
+[data-dpr="2"] .m-button-tab li a{
+    font-size:24px;
+}
+[data-dpr="3"] .m-button-tab li a{
+    font-size:36px;
+}
+.m-button-tab li .img{
+    max-width: 0.8rem;
+    max-height:0.8rem;
+    vertical-align: middle;
+}
+.sidebar-action{
+    position: fixed;
+    right: 3rem;
+    bottom: 3.2rem;
+    z-index:9999;
+}
+.sidebar-action .item-wrap{
+    margin-top: 0.466667rem;
+}
+.sidebar-action button{
+    width: 1.33333rem;
+    height: 1.33333rem;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background-color: #ff6634;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.sidebar-action button#light{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAD3klEQVRoQ+2Z7VEUQRCGuyMQIxAjUCIQIhAiECIQIxAjUCMQIlAiECIQIxAygAjaeqieq75hdnZmb1f/3FTxg5uvfrvf/phelYWGme2IyDc//kRV75e4Spc4lDPN7ExEPvr5n1SV/2cfWwBDKt1aoJFsS1LoVEQ+Byc+b5Spa9liANyRAXGvqosIzx2DAMzs0MPgrYgcLBUGKz70WkS+iwjh+EhVr0prawDY8MY33fxLEGaG8D9deES4VFUU+mTUAEQOs7EJhCewVyKCEGiPgRX5+z1mSTPbFZFfYS/7scCPLgDOYbj7LmwsJiQXmnXHLnjNERHkh6pelBaZWX4nWXzQh0adODvwyWFmhuBkWTSXjwf/4VlhDouc5UCy/FEVvurE8ULn5E50pFDrRG5eo13XMAKuhlODtVgJiqVxrqon2VrW3aoqtK2OUQsMmBlu42TwnIHgaLMYKfIzzGxfRKDFC59r8q+SLN0AXPNR+K+qisN3j4yeV6p60HvIFACUyNCAMcrRMYHM7IuIvPd13croAuCmR/uMC1VNQMbkrM6bGX7z1hfttXA/HdgLgPgM7+9UtRR1JgFxWuL0RKsuKjUD8NKC1D4LdQqOHRNnsxV6AKQEM6v2IxAz49mJFZpfcGpm8JiyN6V9zkwF3CqWm9kfT1azcb9gheQLN6q6l+YLtRFTgD0CQCza4plrWjAz88nBumSSA4RNZraikaqu2JFl53jNNQDyoo0FlAD7KRpk0YfSuilh9QLK7nmeCr/s93js0SNKjwIpq0ouYHbAS1VdKxN6BR1aX1NULiPVMQCbnPg/WaBJUa0AiPk4MWNJClHEPYbq6AM1CzcBcJolJ/6gqqT/2UcoKx5UNUbFwbt6ABRD3JwopoTqHgAxWjXxswdc5mfNoboHACZN9crsyczMKBJ5JxDCd8fezkk5zQDcD2LDdjZn9mogdbK7fKwXQLQCqRwQo8++GpWyMqG7zuoC4FYg4VFWM6AUfJ0EIhN+Lfu3+k83AAdBAZhMjiVOh9oklazLKyyG42bHjWdOAuAgSDqU2KllghV42F9WhIaCvLxiGwbNH06tryYDCHQCRGyTMEWxlxd8RBj+4qCbcbxJbbURgCSJRxG0mtokYxS+c9oV24Vjm2ehUOkSd0qolTSdmsNomlFsevUInK+dxQKbCLDp3i2A4Afkh9TbGVMs/f5JuWMRCjn3U3IbEz7NN7dOagfOQiF/7hE283A6dDdOTezf+Ov9LABaVb7Eui2AgXxAnRM/fEAV3hAbJ65FnDge6l9iUgNg7b7Wh3oP1RahkHfS8rqHD3uzNwP+AhHRwIe7LSdZAAAAAElFTkSuQmCC
+    );
+    -webkit-background-size: 0.7rem;
+    background-size: 0.7rem;
+}
+.sidebar-action button#edit{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAC20lEQVRoQ+1agXETMRC8rQCoIE4HdICpgHQAqYBQAVABUAGmAtJBkgqSVEBSAaGCY/ZH+rmXJf/7rdMT4GYyY0eWvHtane7uDXnkhkeOX7YIqOpTEXktImsR4WsPexCRLwAuD118QEBVn4vIhSNwi/cBwLMSgcSRJPwtR7gnECb8aASeuG8B0GFbFhz5XURWyeAGwKn9nyVwJiKfwuAvEdmIyPmhW7xj/g0AenZgE1QwIGEJUI8vwmofAXxwBJ9dOgOejqRjeRajczm3J1Ei8LLGAdvHAQXwawA3XEdV34jIV7PmKYDNH0GgIJsOoHVCQuIOwPHiBHZonueDSuh2IJqqanwNmhmwZ6CJhCYc2AEJVaWEKCXaPYDVYgRKsgngrNY7EiLy1oDnx94B+LwIgTHNZw5sGg94qXU70ZzAGHgj6TTqxKEefHMCU8EbEkxrmJNlwTclMAO8PbDEOvB8H4laRCEv8E12wBO8OwEP8KrKDPUIwJUrAUfw1yG5Y0F05hJGPcDT26rKiMTIRLsCsK5OwAt8EwKe4N0JeIN3JdACvBuBVuA9CbCTYbsHXZqbpo8BwKT0IDfXhUDwPuOyNVZQLIgGHYekGCnmNiXwXgRsK6ZIogZ4LwLsG70KyNlwonSehPfdToR2SCwDZ3neJJx1LzJTYHf1aZAUa+tIgjKy/dVsSrxLNnas6k2cLNYDy5CIGA4CX11Cqkq5sNCmUT4/Q/XEbU57ngeD9yDA6JNtziaSqAK+KoHQyabHS3YrIjwL5zVblNXOQCgqeIFFuw+AI+itrvPUg9rsHgjeoIQu0/ZfDbC5NartgBfAsXX/ExjzkPf4P7UDizxiGttBVeVjr/fhc1tFfZpZ8qZ1CYdjQAvjzKmIMdpWe50fuDOJ2MzvaTKND/9WrDlyD7qZIh81gTHvS3hpnsS7p/RTg5OQ50zJdebB2H8W6wv+MT3ppf33/dhjf8csO+M3HlGPT0O0PRgAAAAASUVORK5CYII=
+    );
+    -webkit-background-size: 0.6rem;
+    background-size: 0.6rem;
+}
+.sidebar-action button.sidebar-toggle{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACDUlEQVRoQ92a61HDQAyEdysgpUAHUAF0AHRAKgAqIB0AHUAF0AGUAhWIEWOD49eddHJi5/4x+KT9TpZkWyEWvrhw/TgsABF5AHAD4AvANcmXOURIRC4APAJYAdiQXNe6/iIgIipcAZpLIZ72CSEiV5X4Xl1NgDsAtz1i9wYxIF4l3pNUvf85ICKnAN4GTnvnECPiVeIZyfctAP0jsWlnEBYdnSpk2TxFblj995ZRq5EoEI/fwT7gMVYC4vU32si8Rq0gJX6SnbjEeA5Iqf0kwJTVqVR8p4yOnViEs6b9KHtZEagdRzmNsmOKQBREpHgXQElORIt3A3ggphBfBGCBmEp8MUAORJU7+jLSt4ofEE1VaKjMJk54aFux+JAIZFanNkSI+FCAjNuphggTHw5QQeg79OXAffNMUt9xw1ZIDhhvo3lGwJjIYRAhETCKD82FYoBUk5p1H0iJrz+K5V7nyWx3BKyirNfnwrgAvGK8+8ZgzAClIkr3t2FMAFHOo+yYOnGk04zHjuw+kRWBaPGZnTsLIgkwlfgoiMP9Mjf1yberidff4X2d9p5EbudMXWf1vxUB6+aUGO//LTqaQ75jAB8DTrNKmldw374ExAnJz61GJiKLn1IuaU68JrnpPEqIiE7mzwF868R+30PuVrNTwUcAXknq5P539U0pVyT1pwazWyLS0ZZ8lJgdRUvQD2dzjUDRHq4uAAAAAElFTkSuQmCC
+    );
+    -webkit-background-size: 0.5rem;
+    background-size: 0.5rem;
+}
+.sidebar-action button.sidebar-toggle.off{
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAAAwCAYAAACynDzrAAAEGElEQVRoQ+2Z4XETQQyFpQoIFUAqIKkAqIBQAaECQgVABUAFQAUkFZBUQFIBSQWQCsR8RsrI5/Xdnu8uP5jdGcYOPu++fXp6q5VV2uhlQBs//Qw0ggYU0ghqBE0zkaagpqCmoGkMNAVN4695UFNQU9A0BuZSkJnticiTCjQ3qnpd8dwsj4zAxXq3qno5ZuE7D0oLHYgIZHRfx8zLs5CU/52r6sXYSeJ5M3ssIk9FhNdn/sr7KePcvwxpf0SEv9cCvCLIzI5F5MvIla580tLX+tQGiFMRORtSmpkRpFcicuSElNbKOGKjPBcBjvcPKvd3qaqH8WwQ9F5E3olILMbkeUIiz8ZQQbA+uJ5vMCLOJh91vsSGVvMmsiEXhZRIuXVyeZ6NVKeLZwjzxtwZSygbhYqq3mVWl6AACkFsDEBHY0jpY83MAPe1QNQQ2eA4UVW+O8swsxAFqRXKA99eH0HdxV/PCcrTGeIBVCt5yDkYSsddWDMzPLKr6qKCkDPRyaAxq6kmWMRtZp9E5E3lpr6pKh45+zCzExH52Jn4s6ry/6uRTzHS6md6+EJVkdzsI8k75sYDII0BGS/Soh9UlXSYfXjK/+hba+2qYWaoiFODsSSwHLkNpZoZXrgyzIVxIIBM0ENVxZPuRpegfNzfF0FvVTXUswJmZqT893sm6EpVyaK10SWII/b3PQCLE4Sl9ksGbGZEEk9cMtWzgta8J1jauM2bGScMV4olzTFSqBg1V1EY+bWq7s9uQP+Umgl6qaoUsNsV5MDChxaJnBdsodKN9Ap0XmTGoXE4piisJbND0Ib/ME9JQeFDi0Suc60pgkokhZoX8cN0mm5Vcomgu+M+V5S1URl6zsw4NZD2YAonMpcKVmRL0X+KCvI0C4N8Ptc1w+fNOV805y7Bqdpdoqr/5Veqov/0EYRZUaxt9YghpZQ+T+rZGrECQUEq1wK8aK1O2QWHB4tbAgTRI+L0Lo5iTzpJe+3qvysYBxS1zY3frao3mgrHamKHsCb/6U31rU37VIdMTjM/kfAeIjV6Pm+WxQV3cqr5ScoJiYp68fQRFMUcwJikOuI5ek4OVTFgdt6cz0P9RPFI6+PzkEq2fW5mNAc5rQdLmd6ffVLRiNvjR9UkeZS4sUP0LP0cJwksFLIEjmKSzmQVLv8+t3d8raqNMkQQKQEgDBsQvF811br9ZV+c3gplQnTuCOKZR3y2Rr63KbjwRi8Hspg/OozRBIu2K+rlfdy16Jwe1xSfVT8cesWJJNn4RoOpI2VMOFqpp0s0ulIhifGDiY3H7X9bZgUuMFV3JqsI6nhK/OLRBYKqqnvEu/rH0Pc8mPmxSbhGEzQE8H/7vBE0ENFGUCNoWtI3BTUFNQVNY6ApaBp/zYOagpqCpjHQFDSNv79g2MlAOfni5wAAAABJRU5ErkJggg==);
+    -webkit-background-size: 0.85rem;
+    background-size: 0.85rem;
+}
+.bottom-nav{
+    position: fixed;
+    bottom:0;
+    z-index:9999;
+    width:100%;
+    height:3rem;
+    overflow: hidden;
+    background: rgba(255,255,255,0.5);;
+    border-top:1px solid #ddd;
+}
+.scroll-container{
+    float: left;
+    display:inline;
+    width:100%;
+    height:3rem;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.bottom-nav ul{
+    height:3rem;
+}
+.bottom-nav ul li{
+    position: relative;
+    display:inline-flex;
+    align-items: center;
+    width:3rem;
+    height:3rem;
+    padding: 0.2rem;
+    border-right:1px solid #d5d5d6;
+}
+.bottom-nav ul li img{
+    max-height:2.8rem;
+    max-width:100%;
+}
+.bottom-nav ul li h5{
+    position: absolute;
+    z-index: 2;
+    color: #000;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 0.8rem;
+    margin: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.top-nav #back{
+    position: fixed;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:1.4rem;
+    height:1.4rem;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    outline: none;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAB1UlEQVRoQ+2YYVHEMBCF31MAOAAFIOEkgALAAQ44FIADcAAoAAmgAHBwKFhmb9LjyrVpNi1pMpP8Trrv290kryEKHyxcPyrA3BWsFagVGJmB2kIicgjgHMA+gGeSryOTalo+qgIicgHg1olvAl+SfDCpGDE5GsCJv++IvSJ5MEKTaWkUgEf8OjjJqO+alLvJ5kBD4gG8kzyJEROzxgQQIP4bwILkW4yYmDXBADmKX7drCHWu4oMAchY/CJC7eC9ACeJ7AUoR3wlQkvgdABFZAHjxnEytc15ETgGonVAjl2KsAKjXemqCbY5REVERHx4xf8WrC9X5c4wjkp+tCrhsPvao2blhRWQJ4HoO9QBuSGr834ssoH1aNllErpyVnoNho6V1E4uIephjj6LNQtdyWsa9xATaDYckdT+0rYQTpX9UoRC6D+4SbmJN2LLp/75jVDdzMETi7O+E6zRz1krMCdHrRkuB8NrpEiAG/wdyhxgE0P7OGSIIIGeIYAADxNm22frvE8oEEAhRxMOW97LL+mGraQnPxv4iqRYjyTC30LaqDoh8H7Z86XRWfN1WjUtMkv7Qh61UYmLijGqhmIBTr6kAU2fU+r1aAWvGpp5fKzB1Rq3f+wH7KMsxFBaWTwAAAABJRU5ErkJggg==);
+    background-color: #ff6634;
+    background-repeat: no-repeat;
+    background-position: center center;
+    box-shadow: 1px 2px 3px rgb(255, 89, 34);
+    -webkit-background-size: 0.75rem;
+    background-size: 0.75rem;
+}
+.character-container{
+    position: fixed;
+    z-index:1;
+    top:0;
+    left: 0;
+    bottom:0;
+    right:0;
+    background: url(https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/h%3D452/sign=74d72811cc134954611ee961644f92dd/d31b0ef41bd5ad6ef7ccf47a86cb39dbb6fd3c6c.jpg);
+    background-repeat: no-repeat;
+    background-position: 75%;
+    background-size: cover;
+}
+.child-mod-container{
+    width: 100%;
+    margin-top:1rem;
+    line-height: initial;
+}
+.child-mod-container span{
+    margin-top: 5px;
+    display: block;
+    text-align: center;
+}
+
+</style>
+<body>
+    <div id="root" class="container">
+        <div class="top-nav">
+            <button id="back"></button>
+        </div>
+        <div id="sidebar" class="sidebar off">
+            <div class="sidebar-scroll">
+                <ul class="m-button-tab" id="category-container">
+                </ul>
+
+            </div>
+        </div>
+        <div class="sidebar-action off" id="sidebar_action">
+            <div class="item-wrap">
+                <button id="light"></button>
+            </div>
+            <div class="item-wrap">
+                <button id="edit"></button>
+            </div>
+            <div class="item-wrap">
+                <button class="sidebar-toggle off" id="sidebar_toggle"></button>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <div class="scroll-container">
+                <ul class="glasses-scroll">
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                    <li>
+                        <img src="images/4637_G_1490123015339.png" alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="character-container">
+
+        </div>
+    </div>
+    <script src="js/zepto.min.js"></script>
+    <script>
+        window.jQuery = $;
+    </script>
+    <script>
+        (function() {
+            var Util = (function(){
+                var getData = function(url,callback){
+                    return $.ajax({
+                        url : url,
+                        type : 'get',
+                        dataType : 'json',
+                        success : function (result) {
+                            var json =  result.glasses;
+                            category_id = result.id;
+                            callback(json);
+                        }
+                    })
+                }
+                var calcBackStep = function(){
+                    if(isBack){
+                        Dom.backStep+=1;
+                    }else{
+                        Dom.backStep-=1;
+                    }
+                }
+                return {
+                    getData : getData,
+                    calcBackStep : calcBackStep
+                }
+            })();
+            var Dom = {
+                sidebar : $("#sidebar"),
+                sidebar_toggle : $("#sidebar_toggle"),
+                sidebar_action : $("#sidebar_action"),
+                stepback : $("#back"),
+                child_mod_container : $(".child-mod-container")
+            };
+            var tryingModel;
+            var categoryLi;
+            var category_container = $('#category-container');
+            var GlassMenu = false; // 眼镜菜单是否展开
+            var isBack = false; //是否后退
+
+
+            function main() {
+                // todo主函数入口
+                eventHandler();
+                tryingModel = TryingModel();
+            }
+            function TryingModel(){
+                // todo实现和试戴相关的数据交互的方法
+                var url = 'data/glass.json';
+                Util.getData(url,function(result){
+//                    console.log(result);
+                    TryingBaseFrame(result,category_container,true,false,);
+                    Dom.data = result; //全部的数据存到Dom.data里
+                    Dom.preData = Dom.data; //初始化上一级数据等于全部数据
+                })
+
+            }
+
+
+            function TryingBaseFrame(data,category_container,isparent,islast,callback){
+                var gData = data; //全部数据
+                category_container.html("");
+                categoryLi = "";
+
+                $(gData).each(function(idx,val){
+                    if(!islast){
+                        categoryLi =isparent? `<li><a data-id="${val.id}" data-index="${idx}" href="javascript:;"><img class="img" src="${val.icon}" alt="">${val.title}</a></li>`: `<li><a  data-secid="${idx}" href="javascript:;"><img class="img" src="${val.icon}" alt="">${val.title}</a></li>`;
+                    }else{
+                        categoryLi=`<li><a class="lastChild" data-id="${val.id}" data-secid="${idx}" href="javascript:;"><img class="img" src="${val.icon}" alt="">${val.title}</a>`
+                        var goods = val.goods;
+                        var itemDetail="";
+                        for(var i = 0;i<goods.length;i++){
+                            (function(i){
+                                itemDetail += `<div class='child-mod-container'><img src="${goods[i].imgSrc}" /><span>${goods[i].title}</span></div>`;
+                            })(i)
+                        }
+                        categoryLi+=itemDetail;
+                        categoryLi+=`</li>`;
+
+                    }
+
+                    category_container.append(categoryLi);
+                });
+                callback && callback();
+
+            }
+
+
+            function eventHandler(){
+                //todo事件处理
+                Dom.backStep = 0;
+                $(category_container).on('click','a',function () {
+//                    console.log(Dom.backStep);
+                    var isparent = $(this)[0].hasAttribute('data-index');
+                    if(isparent){
+                        var id =   $(this).data('index');
+                        //一级栏目
+                        if( Dom.data[id].goods == undefined){
+                            Dom.nowData = Dom.data[id].items;
+                            //渲染
+                            isBack = true;
+                            TryingBaseFrame(Dom.nowData,category_container,false,false,Util.calcBackStep);
+
+                        }else{
+                            isBack = true;
+                            TryingBaseFrame(Dom.data[id],category_container,false,true,Util.calcBackStep);
+                        }
+                        Dom.parentId = id;
+                    }else {
+                        //其余级别
+                        if($(this).hasClass('lastChild')){
+//                            console.log('right');
+                            $(this).toggleClass('on');
+                        }else{
+                            var otherid  = $(this).data('secid');
+                            Dom.preData = Dom.nowData;
+                            if(!isgoods(Dom.nowData[otherid].items)){
+                                Dom.nowData=Dom.nowData[otherid].items;
+                                isBack = true;
+                                TryingBaseFrame(Dom.nowData,category_container,false,false,Util.calcBackStep);
+                            }else{
+                                isBack = true;
+                                TryingBaseFrame(Dom.nowData[otherid].items,category_container,false,true,Util.calcBackStep);
+                            }
+                        }
+                    }
+
+                });
+                $(category_container).on('click','.child-mod-container',function(){
+                    var glassImg = $(this).children('img').attr('src');
+                    var glassTitle = $(this).children('span').html();
+                    var glassScrollLi = `<li><img src="${glassImg}" alt=""><h5>${glassTitle}</h5></li>`;
+                    $(".glasses-scroll").prepend(glassScrollLi);
+                });
+
+                Dom.sidebar_toggle.click(function(){
+                    if(GlassMenu == false){
+                        Dom.sidebar_toggle.removeClass('off');
+                        Dom.sidebar_action.removeClass('off');
+                        Dom.sidebar.removeClass('off');
+                        GlassMenu = true;
+                    }else{
+                        Dom.sidebar_toggle.addClass('off');
+                        Dom.sidebar_action.addClass('off');
+                        Dom.sidebar.addClass('off');
+                        GlassMenu = false;
+                    }
+                });
+
+                Dom.stepback.click(function(){
+                    isBack = false;
+                    switch(Dom.backStep){
+                        case 0 :
+                            if(GlassMenu){
+                                Dom.sidebar_toggle.trigger('click');
+                                GlassMenu = false;
+                            }else{
+                                alert('已达到最外层');
+                                return;
+                            }
+                            break;
+                        case 1 :
+                            TryingBaseFrame(Dom.data,category_container,true,false,Util.calcBackStep);
+                            break;
+                        default:
+                            TryingBaseFrame(Dom.preData,category_container,true,false,Util.calcBackStep);
+                            break;
+                    }
+
+                });
+
+            }
+
+            function isgoods(obj) {
+                var r = obj[0].goods;
+                if(r){
+                    return true
+                }else{
+                    return false
+                }
+            }
+            main();
+        })();
+
+
+    </script>
+</body>
+</html>

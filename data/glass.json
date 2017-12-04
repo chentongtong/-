@@ -1,0 +1,182 @@
+{
+  "result" : 0,
+  "glasses":[
+    {
+      "id" : 1,
+      "title" : "男款眼镜",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=583629&size=48",
+      "items":[{
+        "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+        "title":"系列",
+        "items" : [{
+          "title":"Mori",
+          "icon":"",
+          "goods" : [{
+            "title":"光学镜架 金属 钢琴黑色",
+            "imgSrc":"http://image.loho88.com/images/201711/thumb_min_img/P_1511725579911338385.jpg"
+          },
+            {
+              "title":"三周年纪念版 限量发行",
+              "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+            }]
+        },
+        {
+          "title":"Alpha",
+          "icon":"",
+          "goods" : [{
+            "title":"α系列光学镜架 板材 岩石灰色",
+            "imgSrc":"http://image.loho88.com/images/201503/thumb_min_img/3118_thumb_min_P_1427220950633.jpg"
+          },
+          {
+            "title":"黄玳瑁色 时尚款",
+            "imgSrc":"http://image.loho88.com/images/201510/thumb_min_img/4467_thumb_min_P_1445969238382.jpg"
+          }]
+        }]
+        },
+        {
+          "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+          "title":"颜色",
+          "items" : [{
+            "title":"黑色",
+            "icon":"",
+            "goods" : [{
+              "title":"光学镜架 金属 钢琴黑色",
+              "imgSrc":"http://image.loho88.com/images/201711/thumb_min_img/P_1511725579911338385.jpg"
+            },
+              {
+                "title":"三周年纪念版 限量发行",
+                "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+              }]
+          },
+            {
+              "title":"岩石灰色",
+              "icon":"",
+              "goods" : [{
+                "title":"α系列光学镜架 板材 岩石灰色",
+                "imgSrc":"http://image.loho88.com/images/201503/thumb_min_img/3118_thumb_min_P_1427220950633.jpg"
+              },
+                {
+                  "title":"黄玳瑁色 时尚款",
+                  "imgSrc":"http://image.loho88.com/images/201510/thumb_min_img/4467_thumb_min_P_1445969238382.jpg"
+                }]
+            }]
+        }
+      ]
+    },
+    {
+      "id" : 2,
+      "title" : "女款眼镜",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=509007&size=48",
+      "goods":[{
+          "title":"女款眼镜1",
+          "imgSrc":"http://img.yichao.cn/uploads/space/5FBAA5C072EF7F4AE242203689B1F4B63F568668.jpg"
+        },
+        {
+          "title":"女款眼镜2",
+          "imgSrc":"http://img.yichao.cn/uploads/space/5FBAA5C072EF7F4AE242203689B1F4B63F568668.jpg"
+        }]
+    },
+    {
+      "id" : 3,
+      "title" : "太阳眼镜",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1206528&size=48",
+      "items":[{
+        "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+        "title":"大小",
+        "items" : [{
+            "title":"小框",
+            "icon":"http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+            "goods":[{
+              "title":"小框1",
+              "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+            }]
+          },
+          {
+            "title":"中框",
+            "icon":"http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+            "goods":[{
+              "title":"中框1",
+              "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+            }]
+          },
+          {
+            "title":"大框",
+            "icon":"http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+            "goods":[{
+              "title":"大框1",
+              "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+            }]
+          }]
+        }
+      ]
+    },
+    {
+      "id" : 4,
+      "title" : "儿童眼镜",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=558968&size=48",
+      "items":[
+        {
+          "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+          "title":"分类1",
+          "items" : [{
+            "title":"儿童光学镜",
+            "goods":[{
+              "title":"儿童光学镜1",
+              "imgSrc":"http://img.yichao.cn/uploads/space/5FBAA5C072EF7F4AE242203689B1F4B63F568668.jpg"
+            },
+            {
+              "title":"儿童光学镜2",
+              "imgSrc":"http://img.yichao.cn/uploads/space/5FBAA5C072EF7F4AE242203689B1F4B63F568668.jpg"
+            }]
+          }]
+        }]
+    },
+    {
+      "id" : 5,
+      "title" : "功能眼镜",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=583629&size=48",
+      "items":[{
+        "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1200330&size=64",
+        "title":"功能",
+        "items" : [{
+          "title":"老花镜",
+          "icon":"",
+          "goods" : [{
+            "title":"老花镜 金属 钢琴黑色",
+            "imgSrc":"http://image.loho88.com/images/201711/thumb_min_img/P_1511725579911338385.jpg"
+          },
+            {
+              "title":"三周年纪念版 限量发行",
+              "imgSrc":"http://image.loho88.com/images/201409/thumb_min_img/2221_thumb_min_P_1410984060874.jpg"
+            }]
+        },
+          {
+            "title":"骑行镜",
+            "icon":"",
+            "goods" : [{
+              "title":"骑行镜光学镜架 板材 岩石灰色",
+              "imgSrc":"http://image.loho88.com/images/201503/thumb_min_img/3118_thumb_min_P_1427220950633.jpg"
+            },
+              {
+                "title":"骑行镜色 时尚款",
+                "imgSrc":"http://image.loho88.com/images/201510/thumb_min_img/4467_thumb_min_P_1445969238382.jpg"
+              }]
+          }]
+      }
+      ]
+    },
+    {
+      "id" : 6,
+      "title" : "品牌镜片",
+      "icon" : "http://www.easyicon.net/api/resizeApi.php?id=1121723&size=48",
+      "goods":[{
+        "title":"  Z1625",
+        "imgSrc" :"http://img.yichao.cn/uploads/space/39EE65A5EFE6CD6571BB91BA0CED85DBD05F8825.jpg"
+      },
+      {
+        "title":"    竹川木野Z1611通用镜框",
+        "imgSrc" :"http://img.yichao.cn/uploads/space/C100E913CE56FE26717862C05134D616AFF047FA.jpg"
+      }]
+    }
+  ]
+}
